@@ -36,6 +36,13 @@ namespace GoogleARCore.Examples.HelloAR
     /// </summary>
     public class HelloARController : MonoBehaviour
     {
+        private GameObject obj;
+        private void Start()
+        {
+            obj = GameObject.Find("UTC_Default");
+            obj.SetActive(false);
+        }
+
         /// <summary>
         /// The first-person camera being used to render the passthrough camera image (i.e. AR
         /// background).
@@ -116,41 +123,44 @@ namespace GoogleARCore.Examples.HelloAR
                 else
                 {
                     // Choose the prefab based on the Trackable that got hit.
-                    GameObject prefab;
-                    if (hit.Trackable is FeaturePoint)
-                    {
-                        prefab = GameObjectPointPrefab;
-                    }
-                    else if (hit.Trackable is DetectedPlane)
-                    {
-                        DetectedPlane detectedPlane = hit.Trackable as DetectedPlane;
-                        if (detectedPlane.PlaneType == DetectedPlaneType.Vertical)
-                        {
-                            prefab = GameObjectVerticalPlanePrefab;
-                        }
-                        else
-                        {
-                            prefab = GameObjectHorizontalPlanePrefab;
-                        }
-                    }
-                    else
-                    {
-                        prefab = GameObjectHorizontalPlanePrefab;
-                    }
+                    // GameObject prefab;
+                    // if (hit.Trackable is FeaturePoint)
+                    // {
+                    //     prefab = GameObjectPointPrefab;
+                    // }
+                    // else if (hit.Trackable is DetectedPlane)
+                    // {
+                    //     DetectedPlane detectedPlane = hit.Trackable as DetectedPlane;
+                    //     if (detectedPlane.PlaneType == DetectedPlaneType.Vertical)
+                    //     {
+                    //         prefab = GameObjectVerticalPlanePrefab;
+                    //     }
+                    //     else
+                    //     {
+                    //         prefab = GameObjectHorizontalPlanePrefab;
+                    //     }
+                    // }
+                    // else
+                    // {
+                    //     prefab = GameObjectHorizontalPlanePrefab;
+                    // }
 
                     // Instantiate prefab at the hit pose.
-                    var gameObject = Instantiate(prefab, hit.Pose.position, hit.Pose.rotation);
+                    // var gameObject = Instantiate(prefab, hit.Pose.position, hit.Pose.rotation);
 
                     // Compensate for the hitPose rotation facing away from the raycast (i.e.
                     // camera).
-                    gameObject.transform.Rotate(0, k_PrefabRotation, 0, Space.Self);
+                    // gameObject.transform.Rotate(0, k_PrefabRotation, 0, Space.Self);
 
                     // Create an anchor to allow ARCore to track the hitpoint as understanding of
                     // the physical world evolves.
                     var anchor = hit.Trackable.CreateAnchor(hit.Pose);
 
+                    obj.SetActive(true);
+                    obj.transform.position = hit.Pose.position;
+
                     // Make game object a child of the anchor.
-                    gameObject.transform.parent = anchor.transform;
+                    // gameObject.transform.parent = anchor.transform;
                 }
             }
         }
