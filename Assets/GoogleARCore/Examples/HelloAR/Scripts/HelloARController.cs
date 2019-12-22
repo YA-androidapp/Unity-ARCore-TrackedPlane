@@ -156,8 +156,9 @@ namespace GoogleARCore.Examples.HelloAR
                     // the physical world evolves.
                     var anchor = hit.Trackable.CreateAnchor(hit.Pose);
 
-                    obj.SetActive(true);
-                    obj.transform.position = hit.Pose.position;
+                    var clone = GameObject.Instantiate( obj ) as GameObject;
+                    clone.SetActive(true);
+                    clone.transform.position = hit.Pose.position;
 
                     // Make game object a child of the anchor.
                     // gameObject.transform.parent = anchor.transform;
